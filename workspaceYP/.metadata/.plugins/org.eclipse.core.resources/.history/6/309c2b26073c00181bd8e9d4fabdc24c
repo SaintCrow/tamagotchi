@@ -1,0 +1,127 @@
+package tamagotchi;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Partie {
+	
+	public int nombre_de_tours;
+	public Tamagotchi tama;
+	
+	protected void apprendre() {
+		//AJOUTER LE SCANNER ET BDD
+	}
+	
+	protected void interpreter_message(String message) {
+		if (tama.sommeil == false) {
+			switch (message) {
+				case "viande" : 
+					tama.satiete += 10;
+					break;
+				case "legume" :
+					tama.satiete +=10;
+					tama.sante +=5;
+					break;
+				case "bonbon" :
+					tama.satiete +=5;
+					tama.sante -=5;
+					break;
+				case "aspirine" :
+					tama.sante += 20;
+					break;
+				case "dodo" :
+					tama.energie += 20;
+					tama.sommeil = true;
+					break;
+				case "apprendre" :
+					apprendre();
+					break;
+				case "jouer" :
+					jouer();
+					break;
+				case "save" :
+					//COMMENT SAUVEGARDER
+					break;
+				case "quit" :
+					//COMMENT QUITTER
+					break;
+				default :
+					System.out.println("Message non valide");
+					break;
+			}
+		}
+		else {
+			System.out.println(tama.surnom + " dort !");
+			if (message == "eveil") {
+				tama.sommeil = false;
+			}
+		}
+	}
+	
+	public void jouer() {
+		//SCANNER QUEL JEU ENTRE BLACKJACK ET MORPION
+	}
+	
+	public void entree_temps(){
+		float m = 0.5f; // nb de minutes à attendre
+		
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		long startTime = System.currentTimeMillis();
+		try {
+			while ((System.currentTimeMillis() - startTime) < m *60*1000 // on attend m minutes
+			        && !in.ready()) {
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			if (in.ready()) {
+			    try {
+			    	String message = in.readLine();
+			    	// si un message est entre
+					System.out.println("You entered: " + message);
+					interpreter_message(message);
+					fin_de_tour();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				// si rien n'est entre
+				fin_de_tour();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+
+	protected void fin_de_tour(){
+		System.out.println("fin du tour"); 
+		tama.sante -= 5;
+		tama.satiete -= 5;
+		tama.bonheur -= 5;
+		tama.energie -= 5;
+		tama.education -= 0.5;
+		
+		if (tama.sante <= 0 || tama.satiete <= 0 || tama.bonheur <= 0 || tama.energie <= 0 || tama.education <= 0) {
+			System.out.println(tama.surnom + " est mort :c");
+			//INTERFACE GRAPHIQUE TAMA MORT
+		}
+		
+		if (tama.sante >= 100 || tama.satiete >= 100 || tama.bonheur >= 100 || tama.energie >= 100) {
+			
+		}
+			
+		
+		}
+	
+	
+	
+	public static void main(String[] args) {
+
+	}
+	
+
+}

@@ -1,0 +1,45 @@
+package tamagotchi;
+
+public class Partie {
+	
+	public int nombre_de_tours;
+	public Tamagotchi tama;
+	
+	protected void interpreter_message(String message) {
+		if (tama.sommeil == false) {
+			switch (message) {
+				case "viande" : 
+					tama.satiete += 10;
+					break;
+				case "légume" :
+					tama.satiete +=10;
+					tama.sante +=5;
+					break;
+				case "bonbon" :
+					tama.satiete +=5;
+					tama.sante -=5;
+					break;
+				case "aspirine" :
+					tama.sante += 20;
+					break;
+				case "dodo" :
+					tama.energie += 20;
+					tama.sommeil = true;
+					break;
+
+			}
+		}
+		else {
+			System.out.println(tama.surnom + " dort !");
+			if (message == "eveil") {
+				tama.sommeil = false;
+			}
+			
+		}
+	}
+	
+	public static void main(String[] args) {
+		
+	}
+
+}

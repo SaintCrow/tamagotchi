@@ -1,0 +1,95 @@
+package tamagotchi;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Partie {
+	
+	public int nombre_de_tours;
+	public Tamagotchi tama;
+	
+	protected void apprendre(String mot) {
+		
+		tama.mots_appris.add(mot);
+	}
+	
+	protected void interpreter_message(String message) {
+		if (tama.sommeil == false) {
+			switch (message) {
+				case "viande" : 
+					tama.satiete += 10;
+					break;
+				case "legume" :
+					tama.satiete +=10;
+					tama.sante +=5;
+					break;
+				case "bonbon" :
+					tama.satiete +=5;
+					tama.sante -=5;
+					break;
+				case "aspirine" :
+					tama.sante += 20;
+					break;
+				case "dodo" :
+					tama.energie += 20;
+					tama.sommeil = true;
+					break;
+				case "apprendre" :
+					
+				default :
+					System.out.println("Message non valide");
+					break;
+			}
+		}
+		else {
+			System.out.println(tama.surnom + " dort !");
+			if (message == "eveil") {
+				tama.sommeil = false;
+			}
+		}
+	}
+	
+	public void entree_temps(){
+		float m = 0.5f; // nb de minutes à attendre
+		
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		long startTime = System.currentTimeMillis();
+		try {
+			while ((System.currentTimeMillis() - startTime) < m *60*1000 // on attend m minutes
+			        && !in.ready()) {
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			if (in.ready()) {
+			    try {
+			    	String message = in.readLine();
+			    	// si un message est entre
+					System.out.println("You entered: " + message);
+					interpreter_message(message);
+					finTour();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				// si rien n'est entre
+				finTour();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	protected static void finTour(){
+		System.out.println("fin du tour"); 
+	}
+	
+	public static void main(String[] args) {
+
+	}
+	
+
+}
